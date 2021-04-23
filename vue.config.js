@@ -9,5 +9,9 @@ module.exports = {
         'views':'@/views',
       }
     }
+  },
+  devServer: {
+    host: '0.0.0.0', // ip
+    port: 8080, // 设置端口号
   }
 }

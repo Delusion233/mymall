@@ -27,7 +27,7 @@ export default {
     right: 0;
     bottom: 0;
     z-index: 999;
-    background-color: #f0f0f0;
+    background-color: #fff;
     box-shadow: 0 -1px 1px #f0f0f0;
   }
   

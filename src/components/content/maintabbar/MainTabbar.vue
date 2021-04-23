@@ -38,5 +38,8 @@ export default {
 </script>
 
 <style>
-
+.tab_img{
+  margin-left: auto;
+  margin-right: auto;
+}
 </style>

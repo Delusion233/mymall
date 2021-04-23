@@ -3,6 +3,10 @@ import App from './App.vue'
 import router from './router'//引入创建的router
 
 Vue.config.productionTip = false
+Date.prototype.toLocaleDateString = function () {
+  return this.getFullYear() + "-" + (this.getMonth() + 1) + "-" + this.getDate();
+}
+Vue.prototype.$bus = new Vue()
 
 new Vue({
   render: h => h(App),

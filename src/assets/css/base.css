@@ -26,7 +26,8 @@ body {
   color: var(--color-text);
   /* rem vw/vh */
   width: 100vw;
-  overflow-x: hidden;
+  /* overflow: hidden; */
+  font-weight: bold;
 }
 
 a {

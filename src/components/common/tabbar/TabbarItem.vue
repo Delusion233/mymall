@@ -41,6 +41,6 @@ export default {
     vertical-align: middle;
   }
   .active{
-    color: palevioletred;
+    color: var(--color-tint);
   }
 </style>
