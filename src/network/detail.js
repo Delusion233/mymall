@@ -40,3 +40,12 @@ export class GoodsParams{
     this.rule = rule.tables
   }
 }
+
+export class SelectGoods{
+  constructor(skuInfo){
+    this.defaultPrice = skuInfo.defaultPrice
+    this.color = skuInfo.props[0]
+    this.size = skuInfo.props[1]
+    this.skus = skuInfo.skus
+  }
+}

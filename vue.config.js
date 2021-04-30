@@ -12,6 +12,6 @@ module.exports = {
   },
   devServer: {
     host: '0.0.0.0', // ip
-    port: 8080, // 设置端口号
+    port: 8081, // 设置端口号
   }
 }

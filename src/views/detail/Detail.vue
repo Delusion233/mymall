@@ -4,12 +4,16 @@
     <scroll class="content" ref="scroll" :probeType="3" @scroll="contentScroll">
       <detailSwiper :swiperImage="swiperImage" />
       <detailBaseInfo :goods="goods" />
+      <detailSelectGoods :selectParams="selectParams" @showSelect="showSelect" />
       <detailShopInfo :shop="shopInfo" />
       <detailCommentInfo ref="commentInfo" :commentInfo="commentInfo"/>
       <detailGoodsInfo ref="goodsInfo" :detail="detailInfo" @imageLoad="imageLoad"/>
       <detailParams :params="goodsParams"/>
       <detailRecommend ref="recommend" :recommend="recommend"/>
     </scroll>
+    <detailBottom @addToCart="addToCart" @toBuy="toBuy"/>
+    <backtop @click.native="clickToTop()" v-show="isshowBackTop"/>
+    <detailShowModel :selectParams="selectParams" ref="showmodel" @addCart="addCart"/>
   </div>
 </template>
 
@@ -17,15 +21,19 @@
 import detailNavber from './childDetail/DetailNavbar'
 import detailSwiper from './childDetail/DetailSwiper'
 import detailBaseInfo from './childDetail/DetailBaseInfo'
+import detailSelectGoods from './childDetail/DetailSelectGoods'
 import detailShopInfo from './childDetail/DetailShopInfo'
 import detailGoodsInfo from './childDetail/DetailGoodsInfo'
 import detailParams from './childDetail/DetailParams'
 import detailCommentInfo from './childDetail/DetailCommentInfo'
 import detailRecommend from './childDetail/DetailRecommend'
+import detailBottom from './childDetail/DetailBottom'
+import detailShowModel from './childDetail/DetailShowModel'
 
+import backtop from 'components/content/backTop/BackTop'
 import scroll from 'components/common/scroll/Scroll'
 
-import {getDetailData,Goods,ShopInfo,GoodsParams,getRecommend} from 'network/detail'
+import {getDetailData,Goods,ShopInfo,GoodsParams,getRecommend,SelectGoods} from 'network/detail'
 export default {
   name:'Detail',
   data () {
@@ -39,7 +47,9 @@ export default {
       commentInfo:{},
       recommend:[],
       tabY:[],
-      currentIndex:0
+      currentIndex:0,
+      isshowBackTop:false,
+      selectParams:{}
     }
   },
   components: {
@@ -47,11 +57,15 @@ export default {
     detailNavber,
     detailSwiper,
     detailBaseInfo,
+    detailSelectGoods,
     detailShopInfo,
     detailGoodsInfo,
     detailParams,
     detailCommentInfo,
-    detailRecommend
+    detailRecommend,
+    detailBottom,
+    backtop,
+    detailShowModel
   },
   created () {
     //保存存入的id
@@ -73,7 +87,7 @@ export default {
           data.columns,
           data.shopInfo.services
         );
-        // console.log(data.rate.list);
+        // console.log(data.skuInfo);
         //获取店铺信息
         this.shopInfo = new ShopInfo(data.shopInfo);
         //获取详情图片
@@ -84,13 +98,15 @@ export default {
         if(data.rate.cRate !== 0){
           this.commentInfo = data.rate.list[0]
         }
+        //获取选择商品参数
+        this.selectParams = new SelectGoods(data.skuInfo)
 
         this.$nextTick(()=>{//获取每个标签所在的位置
           this.tabY.push(0,
           this.$refs.commentInfo.$el.offsetTop-100,
           this.$refs.recommend.$el.offsetTop-100,
           this.$refs.goodsInfo.$el.offsetTop-100)
-          console.log(this.tabY);
+          // console.log(this.tabY);
         })
       })
     },
@@ -149,6 +165,35 @@ export default {
         this.currentIndex = 2
         this.$refs.navbar.currentIndex = this.currentIndex
       }
+
+      //判断滚动位置显示toTop按钮
+      this.isshowBackTop = positionY > 1000;
+    },
+    //按钮回到顶部的方法监听
+    clickToTop(){
+      //通过$refs拿到bscroll里的data的scrollElement对象
+      this.$refs.scroll.scrollTo(0,0);
+    },
+    //监听加入购物车按钮显示商品选择参数页面
+    addToCart(){
+      this.showSelect(true);
+    },
+    //监听立即购买按钮
+    toBuy(){
+      this.showSelect(true);
+    },
+    //监听展示商品选择参数页面
+    showSelect(e){
+      this.$refs.showmodel.showModel = e
+    },
+    //监听商品选择参数页面的按钮事件
+    addCart(good){
+      const goods = good
+      goods.iid = this.iid
+      goods.title = this.goods.itemInfo.title
+      this.$store.commit('addToCart',goods);
+      console.log(this.$store.state.goods);
+      this.$refs.showmodel.showModel = false;
     }
   }
 }
@@ -162,7 +207,7 @@ export default {
 }
 .content{
   margin-top: 44px;
-  height: calc(100vh - 44px);
+  height: calc(100vh - 44px - 49px);
 }
 .detail_nav{
   position: relative;
