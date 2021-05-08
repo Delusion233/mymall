@@ -1,7 +1,7 @@
 <template>
   <div class="wfGoodsListItem" @click="click(goodsItem)">
     <div class="goodImg">
-      <img :src="goodsItem.show.img" :alt="goodsItem.title"  @load="loadWaterfallImage">  
+      <img v-lazy="goodsItem.show.img" :alt="goodsItem.title"  @load="loadWaterfallImage">  
     </div>
     <div class="goodInfo">
       <p class="title">{{goodsItem.title}}</p>

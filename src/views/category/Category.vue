@@ -1,59 +1,61 @@
 <template>
   <div class="category">
-    <!-- <tabControl :tabTitle="tabTitle" 
-    @tabClick="tabClick"></tabControl> -->
-    <waterfallGoods :getGoodsList="showGoods"></waterfallGoods>
+    <navbar>
+      <div slot="center">
+        分类
+      </div>
+    </navbar>
+    <div class="contanier">
+      <tabMenu :getList="getList" @itemClick="itemClick"/>
+      <div class="rightItem">
+        
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import tabControl from 'components/content/tabControl/TabControl'
-import waterfallGoods from 'components/content/waterfallGoods/WaterfallGoodsList'
+import navbar from 'components/common/navbar/Navbar'
+import scroll from 'components/common/scroll/Scroll'
 
-import bscroll from 'components/common/scroll/Scroll'
+import tabMenu from './childComps/tabMenu'
 
-import {getHomeGoods} from 'network/home'
+import {getCategory, getSubcategory, getCategoryDetail} from "network/category";
+
 export default {
   name:'category',
   components: {
-    tabControl,
-    waterfallGoods,
-    bscroll
+    navbar,
+    scroll,
+    tabMenu
   },
   data () {
     return {
-      tabTitle:['流行','新款','精选'],
-      goods:{
-        'pop':{page:0,list:[]},
-        'new':{page:0,list:[]},
-        'sell':{page:0,list:[]}
-      },
-      currentType:'pop'
+      getList:[]
     }
   },
-  created () {
-    this.getHomeGoods('pop');
-  },
-  computed: {
-    showGoods(){
-      return this.goods[this.currentType].list
-    }
+  created() {
+    getCategory().then(res=>{
+      console.log(res.data.category.list);
+      this.getList = res.data.category.list
+    })
   },
   methods: {
-    getHomeGoods(type){
-      const page = this.goods[type].page+1
-      getHomeGoods(type,page).then(res=>{
-          this.goods[type].list.push(...res.data.list);
-          this.goods[type].page += 1;
-          // console.log(this.goods[this.currentType].list);
-      })
-    },
-    tabClick(index){
-      console.log(index);
+    itemClick(index){
+
     }
-  }
+  },
 }
 </script>
 
-<style>
+<style scoped>
+.contanier{
+  margin-top: 44px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.rightItem{
+
+}
 </style>

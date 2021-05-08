@@ -14,6 +14,8 @@
     <detailBottom @addToCart="addToCart" @toBuy="toBuy"/>
     <backtop @click.native="clickToTop()" v-show="isshowBackTop"/>
     <detailShowModel :selectParams="selectParams" ref="showmodel" @addCart="addCart"/>
+
+    <toast :message="'添加成功'" ref="toast"/>
   </div>
 </template>
 
@@ -32,6 +34,7 @@ import detailShowModel from './childDetail/DetailShowModel'
 
 import backtop from 'components/content/backTop/BackTop'
 import scroll from 'components/common/scroll/Scroll'
+import toast from 'components/common/toast/Toast'
 
 import {getDetailData,Goods,ShopInfo,GoodsParams,getRecommend,SelectGoods} from 'network/detail'
 export default {
@@ -53,7 +56,6 @@ export default {
     }
   },
   components: {
-    scroll,
     detailNavber,
     detailSwiper,
     detailBaseInfo,
@@ -64,8 +66,10 @@ export default {
     detailCommentInfo,
     detailRecommend,
     detailBottom,
+    detailShowModel,
     backtop,
-    detailShowModel
+    scroll,
+    toast
   },
   created () {
     //保存存入的id
@@ -188,11 +192,24 @@ export default {
     },
     //监听商品选择参数页面的按钮事件
     addCart(good){
-      const goods = good
+      let goods = good
       goods.iid = this.iid
       goods.title = this.goods.itemInfo.title
-      this.$store.commit('addToCart',goods);
-      console.log(this.$store.state.goods);
+      goods.isChecked = true
+
+      this.$store.dispatch('addCart', goods).then(res=>{
+        // console.log('商品添加成功');
+        this.$refs.toast.show = true;
+      })
+
+      //判断是否登陆才能添加商品
+      // if(window.localStorage.getItem('token')&&this.$store.state.token){
+      //   this.$store.commit('addToCart',goods);
+      // }else{
+      //   this.$router.push({path:'/login'});
+      //   return false;
+      // }
+
       this.$refs.showmodel.showModel = false;
     }
   }

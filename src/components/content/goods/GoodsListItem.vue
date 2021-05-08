@@ -1,7 +1,7 @@
 <template>
   <div class="goodsItem">
     <div class="goodImg">
-      <img :src="showImage" :alt="goodsItem.title" @load="loadImage">  
+      <img v-lazy="showImage" :alt="goodsItem.title" @load="loadImage">  
     </div>
     <div class="goodInfo">
       <p class="title">{{goodsItem.title}}</p>

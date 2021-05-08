@@ -66,7 +66,7 @@ export default {
     },
     refresh(){
       this.scrollElement && this.scrollElement.refresh && this.scrollElement.refresh();
-      console.log('refresh');
+      // console.log('refresh');
     }
   }
 }

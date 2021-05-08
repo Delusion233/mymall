@@ -12,11 +12,11 @@ export default {
   props:{
     headColor:{
       type:String,
-      default:'#fff'
+      default:'palevioletred'
     },
     color:{
       type:String,
-      default:'#000'
+      default:'#fff'
     }
   }
 }

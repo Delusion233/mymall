@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- 导航 -->
-    <navbar :headColor="color.headColor" :color="color.color">
+    <navbar :color="color.color" :headColor="color.headColor">
       <div slot="center">购物街</div>
     </navbar>
     <!-- 浮动导航 -->
@@ -122,7 +122,7 @@ export default {
     事件监听相关方法
     */
     tabClick(index){//获取tabControl点击的index,展示对应的goods
-      console.log('加载中....');
+      // console.log('加载中....');
       switch (index) {
         case 0:
           this.currentType = 'pop';
@@ -139,7 +139,7 @@ export default {
       if(this.goods[this.currentType].page==0){
         this.getHomeGoods(this.currentType)
       }
-      if(-this.$refs.bscroll.scrollElement.y > this.tabOffsetTop){//判断滚动的位置大于tabControl的位置才返回tabControl的位置
+      if(-this.$refs.bscroll.scrollElement.y !== this.tabOffsetTop){//判断滚动的位置大于tabControl的位置才返回tabControl的位置
         //每次点击tabControl返回按钮顶部
         this.scrollToY(-this.tabOffsetTop,500)
       }

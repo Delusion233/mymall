@@ -1,13 +1,13 @@
 <template>
   <div class="wfGoodsList">
     <div class="left" ref="leftDom">
-      <waterfallGoodsItem v-for="item in leftGoodsList" 
+      <waterfallGoodsItem v-for="item in leftGoodsList"
       :key="Math.random()*100+item.shopId"
       :goodsItem="item">
       </waterfallGoodsItem>
     </div>
     <div class="right" ref="rightDom">
-      <waterfallGoodsItem v-for="item in rightGoodsList" 
+      <waterfallGoodsItem v-for="item in rightGoodsList"
       :key="Math.random()*100+item.shopId"
       :goodsItem="item">
       </waterfallGoodsItem>
@@ -55,15 +55,17 @@ export default {
     }
   },
   methods: {
-    //存储props穿过来的getGoodsList,以免异步操作不能及时赋值
+    //存储props传过来的getGoodsList,以免异步操作不能及时赋值
     setGoodsList(data){
-      this.goodsListData = data
+      this.goodsListData = data;
       // console.log(data);
       this.getGoods()
     },
     getGoods(){
       if(this.goodsListData){
+        //待解决
         if (this.goodsListData.length >= this.oldLength) {
+          console.log('大');
           this.goodsListData.forEach((item, index) => {
             // console.log(this.oldLength);
             if (index >= this.oldLength) {
@@ -111,7 +113,7 @@ export default {
     }
   },
   updated () {
-    console.log(this.goodsListData.length);
+    // console.log(this.goodsListData.length);
     this.oldLength = this.goodsListData.length
   }
 }
