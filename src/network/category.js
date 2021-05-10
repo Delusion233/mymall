@@ -7,7 +7,7 @@ export function getCategory() {
 }
 
 export function getSubcategory(maitKey) {
-  return axios({
+  return request({
     url: '/subcategory',
     params: {
       maitKey
@@ -16,7 +16,7 @@ export function getSubcategory(maitKey) {
 }
 
 export function getCategoryDetail(miniWallkey, type) {
-  return axios({
+  return request({
     url: '/subcategory/detail',
     params: {
       miniWallkey,

@@ -28,14 +28,16 @@ export default {
   },
   methods: {
     itemClick(index) {
-      this.currentIndex = index
-      this.$emit('itemClick',index)
+      if(index !== this.currentIndex){
+        this.$emit('itemClick',index)
+        this.currentIndex = index
+      }
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .tabMenu{
   width: 100px;
   background-color: #f6f6f6;
