@@ -196,11 +196,16 @@ export default {
       goods.iid = this.iid
       goods.title = this.goods.itemInfo.title
       goods.isChecked = true
-
-      this.$store.dispatch('addCart', goods).then(res=>{
-        // console.log('商品添加成功');
-        this.$refs.toast.show = true;
-      })
+      //判断是否登录
+      if(window.localStorage.getItem('token')&&this.$store.state.token){
+        this.$store.dispatch('addCart', goods).then(res=>{
+          // console.log('商品添加成功');
+          this.$refs.toast.show = true;
+        })
+      }else{
+        this.$router.push({path:'/login'});
+        return false;
+      }
 
       //判断是否登陆才能添加商品
       // if(window.localStorage.getItem('token')&&this.$store.state.token){

@@ -4,7 +4,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    token:'1',
+    token:'',
     goods: JSON.parse(localStorage.getItem('goods')) || [],//购物车商品数组
   },
   mutations: {
@@ -41,6 +41,10 @@ const store = new Vuex.Store({
       state.goods.forEach(v => {
         v.isChecked = payload
       })
+    },
+    //setToken
+    setToken(state,payload){
+      state.token = payload
     }
   },
   actions: {

@@ -10,7 +10,7 @@
       <unLogin />
     </section>
     <section v-else>
-      <cartItem :goods="goods" @changeInput="changeInput"/>
+      <cartItem class="contanier" :goods="goods" @changeInput="changeInput"/>
     </section>
     <cartBottomBar />
   </div>
@@ -81,5 +81,8 @@ export default {
   font-weight: normal;
   background-color: #f7f7f7;
   height: calc(100vh - 44px - 49px);
+}
+.contanier{
+  padding-bottom: 95px;
 }
 </style>
